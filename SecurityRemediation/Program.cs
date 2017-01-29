@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Data.Common;
+using System;
 using System.IO;
 using System.Management;
 using System.DirectoryServices.AccountManagement;
