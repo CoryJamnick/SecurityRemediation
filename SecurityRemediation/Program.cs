@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.IO;
 using System.Management;
 using System.DirectoryServices.AccountManagement;
