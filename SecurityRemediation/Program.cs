@@ -92,14 +92,20 @@ namespace SecurityRemediation
             ManagementScope mScope = new ManagementScope(@"\\" + wNumber + @"\root\cimv2");
 
             // WMI query
-            var query = new SelectQuery("SELECT * FROM Win32_process WHERE Name= 'calculator.exe'");
-
+            var query = new SelectQuery("SELECT * FROM Win32_process WHERE Name= 'calculator.exe'");        // Change to 'SDCLIENT.exe' for production testing
             // Use query to search through the ManagementScope, terminating specified processes if it finds them
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(mScope, query);
             ManagementObjectCollection collection = searcher.Get();
             foreach(ManagementObject process in collection)
             {
                 process.InvokeMethod("Terminate", null);
+            }
+
+            // Process has been killed - delete the task files out of the RunNow directory
+            DirectoryInfo directory = new DirectoryInfo("@\\" + wNumber + @"\c$\ProgramData\LANDesk\Policies\RunNow\");
+            foreach (FileInfo fInfo in directory.GetFiles())
+            {
+                fInfo.Delete();
             }
         }
     }
